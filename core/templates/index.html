@@ -4,192 +4,262 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - ENSA Nav</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     
     <style>
+        :root {
+            --primary-color: #1a2e4c;
+            --accent-blue: #007bff;
+            --accent-green: #28a745;
+            --accent-red: #dc3545;
+            --bg-light: #f8f9fc;
+            --sidebar-width: 280px;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f4f7f6; /* Gris très clair pro */
+            background-color: var(--bg-light);
+            color: #444;
             overflow-x: hidden;
         }
 
-        /* BARRE LATÉRALE (SIDEBAR) À GAUCHE */
+        /* SIDEBAR ULTRA-MODERNE */
         .sidebar {
             height: 100vh;
-            background-color: #ffffff;
-            color: #333;
+            background: #ffffff;
             position: fixed;
             left: 0;
             top: 0;
-            width: 260px;
-            padding-top: 30px;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+            width: var(--sidebar-width);
+            padding: 40px 20px;
+            box-shadow: 10px 0 30px rgba(0,0,0,0.02);
             z-index: 1000;
+            border-right: 1px solid #eee;
         }
 
         .sidebar-brand {
-            font-size: 24px;
-            font-weight: 700;
-            text-align: center;
-            color: #1a2e4c;
-            margin-bottom: 40px;
-            letter-spacing: 1px;
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        .sidebar-brand i {
+            color: var(--accent-blue);
+            font-size: 32px;
         }
 
         .sidebar a {
-            padding: 15px 25px;
+            padding: 14px 20px;
             text-decoration: none;
-            font-size: 16px;
-            color: #6c757d;
-            display: block;
-            transition: 0.3s;
-            border-left: 4px solid transparent;
+            font-size: 15px;
+            color: #7f8c8d;
+            display: flex;
+            align-items: center;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sidebar a i {
+            margin-right: 15px;
+            font-size: 18px;
         }
 
         .sidebar a:hover, .sidebar a.active {
-            background-color: #f8f9fa;
-            color: #1a2e4c;
-            border-left-color: #1a2e4c; /* Petite barre bleue active */
-            font-weight: 500;
+            background: var(--primary-color);
+            color: white !important;
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(26, 46, 76, 0.2);
         }
 
-        .sidebar i {
-            width: 30px;
-        }
-
-        /* CONTENU PRINCIPAL */
+        /* MAIN CONTENT */
         .main-content {
-            margin-left: 260px; /* On laisse la place pour la sidebar */
-            padding: 40px;
+            margin-left: var(--sidebar-width);
+            padding: 40px 60px;
         }
 
-        /* CARTES MODERNES (Style Vidéo) */
-        .dashboard-card {
-            background: white;
-            border: none;
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.03); /* Ombre très douce */
-            transition: transform 0.2s, box-shadow 0.2s;
-            height: 100%;
+        /* WELCOME BANNER */
+        .welcome-header {
+            background: linear-gradient(135deg, #1a2e4c 0%, #0d1b2a 100%);
+            color: white;
+            padding: 45px;
+            border-radius: 24px;
+            margin-bottom: 50px;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 20px 40px rgba(26, 46, 76, 0.15);
+        }
+
+        .welcome-header::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+
+        /* DASHBOARD CARDS "INGÉNIEUR" */
+        .dashboard-card {
+            background: white;
+            border: 1px solid rgba(0,0,0,0.03);
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.4s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
 
         .dashboard-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-            cursor: pointer;
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+            border-color: var(--accent-blue);
         }
 
-        /* Petite ligne de couleur décorative sur le côté */
-        .border-left-accent {
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 5px;
+        .icon-box {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 20px;
         }
 
         .card-title {
-            font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 10px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #2d3436;
+            margin-bottom: 12px;
         }
 
         .tag-pill {
-            background-color: #edf2f7;
-            color: #4a5568;
-            padding: 5px 12px;
-            border-radius: 50px;
-            font-size: 12px;
-            font-weight: 500;
-            margin-right: 5px;
+            background: #f1f3f5;
+            color: #636e72;
+            padding: 4px 14px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 600;
+            margin: 0 6px 6px 0;
+            text-transform: uppercase;
         }
 
-        /* HEADER DE BIENVENUE */
-        .welcome-header {
-            background: linear-gradient(135deg, #1a2e4c 0%, #2a4975 100%);
-            color: white;
-            padding: 30px;
-            border-radius: 15px;
-            margin-bottom: 40px;
-            box-shadow: 0 10px 20px rgba(26, 46, 76, 0.2);
-            position: relative;
+        .section-label {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-label::after {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background: #eee;
+            margin-left: 20px;
+        }
+
+        .btn-custom {
+            padding: 10px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        /* Badge personnalisés */
+        .badge-level {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
     </style>
 </head>
 <body>
 
     <div class="sidebar">
-        <div class="sidebar-brand"><i class="fas fa-graduation-cap me-2"></i>ENSA Nav</div>
-        
-        <a href="{% url 'home' %}" class="active">
-            <i class="fas fa-th-large"></i> Tableau de bord
-        </a>
-        <a href="{% url 'profile' %}">
-            <i class="fas fa-sliders-h"></i> Configurer Profil
-        </a>
-        
-        {% if user.is_staff %}
-        <div class="mt-4 px-4 text-uppercase small text-muted fw-bold">Gestion</div>
-        <a href="/admin" target="_blank" class="text-danger">
-            <i class="fas fa-lock"></i> Administration
-        </a>
-        {% endif %}
+        <div class="sidebar-brand">
+            <i class="fas fa-microchip me-3"></i>ENSA Nav
         </div>
+        
+        <nav>
+            <a href="{% url 'home' %}" class="active">
+                <i class="fas fa-columns"></i> Dashboard
+            </a>
+            <a href="{% url 'profile' %}">
+                <i class="fas fa-user-gear"></i> Paramètres
+            </a>
+            
+            {% if user.is_staff %}
+            <div class="mt-5 mb-2 px-3 text-uppercase small fw-bold text-muted" style="letter-spacing: 1px;">Admin</div>
+            <a href="/admin" target="_blank" style="color: var(--accent-red) !important;">
+                <i class="fas fa-shield-halved"></i> Root Panel
+            </a>
+            {% endif %}
+        </nav>
+    </div>
 
     <div class="main-content">
         
         {% if user_profile %}
-            <div class="alert alert-success border-0 shadow-sm d-flex justify-content-between align-items-center bg-white" role="alert" style="border-left: 5px solid #198754 !important;">
+            <div class="welcome-header d-flex justify-content-between align-items-center">
                 <div>
-                    <h4 class="alert-heading mb-1 text-success fw-bold">Bonjour, {{ user_profile.name }} !</h4>
-                    <p class="mb-0 text-muted">Voici vos recommandations personnalisées ({{ user_profile.level }}).</p>
+                    <h1 class="fw-bold mb-2">Ingénieur {{ user_profile.name }}</h1>
+                    <p class="mb-0 opacity-75"><i class="fas fa-graduation-cap me-2"></i>Curriculum spécialisé : {{ user_profile.level }}</p>
                 </div>
-                <a href="{% url 'clear_profile' %}" class="btn btn-light btn-sm border">
-                    <i class="fas fa-sync-alt me-1"></i> Réinitialiser
+                <a href="{% url 'clear_profile' %}" class="btn btn-light btn-custom shadow-sm text-primary">
+                    <i class="fas fa-rotate me-2"></i>Actualiser
                 </a>
             </div>
         {% else %}
             <div class="welcome-header">
                 <div class="row align-items-center">
                     <div class="col-md-8">
-                        <h1 class="fw-bold">Bienvenue sur votre Espace</h1>
-                        <p class="mb-0 opacity-75">Optimisez votre expérience d'apprentissage à l'ENSA.</p>
+                        <h1 class="fw-bold mb-2">Centre d'Ingénierie ENSA</h1>
+                        <p class="mb-0 opacity-75">Connectez-vous pour générer vos recommandations académiques IA.</p>
                     </div>
-                    <div class="col-md-4 text-end">
-                        <a href="{% url 'profile' %}" class="btn btn-light text-primary fw-bold shadow">
-                            Commencer <i class="fas fa-arrow-right ms-2"></i>
+                    <div class="col-md-4 text-md-end mt-4 mt-md-0">
+                        <a href="{% url 'profile' %}" class="btn btn-light btn-custom text-primary shadow">
+                            Démarrer <i class="fas fa-arrow-right ms-2"></i>
                         </a>
                     </div>
                 </div>
             </div>
         {% endif %}
 
-        <div class="d-flex align-items-center mb-4 mt-5">
-            <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px; color: white;">
-                <i class="fas fa-book"></i>
-            </div>
-            <h3 class="mb-0 fw-bold text-dark">Modules de Cours</h3>
+        <div class="section-label">
+            <i class="fas fa-layer-group text-primary me-3"></i>Modules Académiques
         </div>
 
         <div class="row">
             {% for course in courses %}
-            <div class="col-md-6 col-lg-4 mb-4">
-                <a href="{% url 'course_detail' course.id %}" style="text-decoration: none; color: inherit;">
+            <div class="col-md-6 col-xl-4 mb-4">
+                <a href="{% url 'course_detail' course.id %}" class="text-decoration-none">
                     <div class="dashboard-card">
-                        <div class="border-left-accent bg-primary"></div>
-                        <div class="d-flex justify-content-between mb-3">
-                            <span class="badge bg-primary bg-opacity-10 text-primary">{{ course.get_level_display }}</span>
-                            <i class="fas fa-chevron-right text-muted small"></i>
+                        <div class="d-flex justify-content-between align-items-start mb-4">
+                            <div class="icon-box bg-primary bg-opacity-10 text-primary">
+                                <i class="fas fa-book-open"></i>
+                            </div>
+                            <span class="badge badge-level bg-primary text-white">{{ course.get_level_display }}</span>
                         </div>
                         <h5 class="card-title">{{ course.title }}</h5>
-                        <p class="text-muted small mb-4">{{ course.description|truncatewords:15 }}</p>
-                        
+                        <p class="text-muted small flex-grow-1">{{ course.description|truncatewords:12 }}</p>
+                        <hr class="opacity-50">
                         <div class="d-flex flex-wrap">
                             {% for tag in course.tags.all %}
                                 <span class="tag-pill">#{{ tag.name }}</span>
@@ -199,64 +269,61 @@
                 </a>
             </div>
             {% empty %}
-            <div class="col-12"><p class="text-muted fst-italic">Aucun cours disponible pour vos filtres.</p></div>
+            <div class="col-12"><p class="text-muted fst-italic bg-white p-4 rounded-4 shadow-sm">En attente de nouveaux modules...</p></div>
             {% endfor %}
         </div>
 
-        <div class="d-flex align-items-center mb-4 mt-5">
-            <div class="bg-success rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px; color: white;">
-                <i class="fas fa-project-diagram"></i>
-            </div>
-            <h3 class="mb-0 fw-bold text-dark">Projets Pratiques</h3>
+        <div class="section-label mt-5">
+            <i class="fas fa-terminal text-success me-3"></i>Laboratoire de Projets
         </div>
 
         <div class="row">
             {% for project in projects %}
             <div class="col-md-6 mb-4">
-                <a href="{% url 'project_detail' project.id %}" style="text-decoration: none; color: inherit;">
-                    <div class="dashboard-card">
-                        <div class="border-left-accent bg-success"></div>
+                <a href="{% url 'project_detail' project.id %}" class="text-decoration-none">
+                    <div class="dashboard-card" style="border-bottom: 4px solid var(--accent-green);">
+                        <div class="icon-box bg-success bg-opacity-10 text-success">
+                            <i class="fas fa-flask"></i>
+                        </div>
                         <h5 class="card-title">{{ project.title }}</h5>
                         <p class="text-muted small">{{ project.description|truncatewords:20 }}</p>
-                        <div class="mt-3">
+                        <div class="mt-auto pt-3">
                             {% for tag in project.tags.all %}
-                                <span class="tag-pill"><i class="fas fa-tag me-1"></i>{{ tag.name }}</span>
+                                <span class="tag-pill" style="border: 1px solid #e0e0e0;"><i class="fas fa-code-commit me-1"></i>{{ tag.name }}</span>
                             {% endfor %}
                         </div>
                     </div>
                 </a>
             </div>
             {% empty %}
-            <div class="col-12"><p class="text-muted fst-italic">Aucun projet trouvé.</p></div>
+            <div class="col-12"><p class="text-muted fst-italic">Section en cours de maintenance.</p></div>
             {% endfor %}
         </div>
 
-        <div class="d-flex align-items-center mb-4 mt-5">
-            <div class="bg-danger rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px; color: white;">
-                <i class="fas fa-robot"></i>
-            </div>
-            <h3 class="mb-0 fw-bold text-dark">Boîte à Outils IA</h3>
+        <div class="section-label mt-5">
+            <i class="fas fa-brain text-danger me-3"></i>Navigateurs IA
         </div>
 
         <div class="row">
             {% for tool in ai_navigators %}
             <div class="col-md-4 mb-4">
-                <a href="{{ tool.link }}" target="_blank" style="text-decoration: none; color: inherit;">
-                    <div class="dashboard-card text-center py-4">
-                        <div class="border-left-accent bg-danger"></div>
-                        <div class="mb-3 text-danger fs-2"><i class="fas fa-bolt"></i></div>
+                <a href="{{ tool.link }}" target="_blank" class="text-decoration-none">
+                    <div class="dashboard-card text-center border-0 shadow-sm" style="background: linear-gradient(to bottom, #ffffff, #fff5f5);">
+                        <div class="icon-box bg-danger bg-opacity-10 text-danger mx-auto">
+                            <i class="fas fa-bolt"></i>
+                        </div>
                         <h5 class="card-title">{{ tool.name }}</h5>
-                        <p class="small text-muted mb-0">{{ tool.description }}</p>
-                        <span class="btn btn-sm btn-outline-danger mt-3 rounded-pill px-4">Ouvrir</span>
+                        <p class="small text-muted mb-3">{{ tool.description }}</p>
+                        <span class="btn btn-sm btn-outline-danger px-4 rounded-pill fw-bold">Lancer l'IA</span>
                     </div>
                 </a>
             </div>
             {% empty %}
-            <p>Aucun outil.</p>
+            <p class="text-muted">Aucun outil configuré.</p>
             {% endfor %}
         </div>
-
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

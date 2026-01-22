@@ -1,18 +1,33 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required # <--- AJOUTÉ
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
+from django.db.models import Q # Importé pour une recherche plus puissante
 from .models import Course, Project, AINavigator, Tag
 
-# 1. Page d'accueil (Accès restreint aux connectés)
-@login_required # <--- AJOUTÉ : Protection
+# 1. Page d'accueil (Avec Algorithme de Recommandation + Recherche)
+@login_required
 def home(request):
-    # Récupérer le profil de l'utilisateur depuis la Session
     user_profile = request.session.get('user_profile')
+    
+    # Récupérer le paramètre de recherche 'q' depuis l'URL
+    query = request.GET.get('q')
 
     courses = Course.objects.all()
     projects = Project.objects.all()
 
-    # --- ALGORITHME DE FILTRAGE ---
-    if user_profile:
+    # --- LOGIQUE DE RECHERCHE ---
+    if query:
+        # Cherche dans le titre OU la description
+        courses = courses.filter(
+            Q(title__icontains=query) | Q(description__icontains=query)
+        ).distinct()
+        projects = projects.filter(
+            Q(title__icontains=query) | Q(description__icontains=query)
+        ).distinct()
+    
+    # --- ALGORITHME DE FILTRAGE (Seulement si aucune recherche n'est active) ---
+    elif user_profile:
         interest_ids = user_profile.get('interests', [])
         if interest_ids:
             courses = courses.filter(tags__id__in=interest_ids).distinct()
@@ -24,13 +39,28 @@ def home(request):
         'courses': courses,
         'projects': projects,
         'ai_navigators': ai_navigators,
-        'user_profile': user_profile, 
+        'user_profile': user_profile,
+        'query': query, # On renvoie la requête pour l'afficher dans l'input
     }
-    # Attention : vérifie si ton fichier s'appelle index.html ou home.html
     return render(request, 'index.html', context)
 
-# 2. Page Profil
-@login_required # <--- AJOUTÉ
+# 2. Inscription (Register)
+def register_view(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+        
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('profile')
+    else:
+        form = UserCreationForm()
+    return render(request, 'register.html', {'form': form})
+
+# 3. Page Profil (Formulaire d'intérêts)
+@login_required
 def profile_view(request):
     tags = Tag.objects.all()
 
@@ -44,34 +74,21 @@ def profile_view(request):
 
     return render(request, 'profile.html', {'tags': tags})
 
-# 3. Effacer le profil (Reset)
-@login_required # <--- AJOUTÉ
+# 4. Effacer le profil (Reset)
+@login_required
 def clear_profile(request):
     if 'user_profile' in request.session:
         del request.session['user_profile']
     return redirect('home')
 
-# 4. Détails d'un Cours
-@login_required # <--- AJOUTÉ
+# 5. Détails d'un Cours
+@login_required
 def course_detail(request, course_id):
     course = get_object_or_404(Course, id=course_id)
     return render(request, 'course_detail.html', {'course': course})
 
-# 5. Détails d'un Projet
-@login_required # <--- AJOUTÉ
+# 6. Détails d'un Projet
+@login_required
 def project_detail(request, project_id):
     project = get_object_or_404(Project, id=project_id)
     return render(request, 'project_detail.html', {'project': project})
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login
-
-def register_view(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user) # Connecte l'utilisateur direct après inscription
-            return redirect('profile') # Envoie-le configurer son profil
-    else:
-        form = UserCreationForm()
-    return render(request, 'register.html', {'form': form})

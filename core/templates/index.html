@@ -32,6 +32,8 @@
             padding: 30px 20px;
             border-right: 1px solid #e2e8f0;
             z-index: 1000;
+            display: flex;
+            flex-direction: column;
         }
 
         .sidebar-brand {
@@ -49,7 +51,7 @@
             font-size: 28px;
         }
 
-        .sidebar a {
+        .sidebar a, .logout-btn {
             padding: 14px 18px;
             text-decoration: none;
             color: #64748b;
@@ -59,9 +61,13 @@
             margin-bottom: 8px;
             font-weight: 500;
             transition: all 0.2s;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
         }
 
-        .sidebar a:hover, .sidebar a.active {
+        .sidebar a:hover, .sidebar a.active, .logout-btn:hover {
             background-color: #f8fafc;
             color: var(--electric-blue);
             box-shadow: inset 4px 0 0 var(--electric-blue);
@@ -75,6 +81,7 @@
         /* CADRE BIENVENUE BLEU PREMIUM */
         .welcome-header {
             background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            border-radius: 166px;
             border-radius: 16px;
             padding: 50px;
             color: white;
@@ -87,7 +94,7 @@
         .welcome-header h1 { font-weight: 700; margin-bottom: 10px; }
         .welcome-header p { font-weight: 300; opacity: 0.85; max-width: 600px; }
 
-        /* BOUTON INITIALISER / COMMENCER (BIEN CLIQUABLE) */
+        /* BOUTON INITIALISER / COMMENCER */
         .btn-premium {
             background-color: #ffffff;
             color: #1e40af;
@@ -172,6 +179,13 @@
                 <i class="fas fa-server"></i> Administration
             </a>
             {% endif %}
+
+            <form action="{% url 'logout' %}" method="post" style="margin-top: 20px;">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn" style="color: var(--tech-red) !important;">
+                    <i class="fas fa-power-off"></i> Déconnexion
+                </button>
+            </form>
         </nav>
     </div>
 
@@ -191,7 +205,7 @@
             <div class="welcome-header">
                 <div class="row align-items-center">
                     <div class="col-md-9">
-                        <h1>Bienvenue sur votre Espace</h1>
+                        <h1>Bienvenue sur votre Espace, {{ user.username }}</h1>
                         <p class="fs-5 mb-0">La plateforme centrale pour vos cours et projets ENSA.</p>
                     </div>
                     <div class="col-md-3 text-end">
@@ -202,7 +216,22 @@
                 </div>
             </div>
         {% endif %}
-
+<div class="search-section mb-4">
+    <form action="{% url 'home' %}" method="GET" class="d-flex gap-2">
+        <div class="input-group shadow-sm">
+            <span class="input-group-text bg-white border-end-0">
+                <i class="fas fa-search text-muted"></i>
+            </span>
+            <input type="text" name="q" class="form-control border-start-0 ps-0" 
+                   placeholder="Rechercher un module, une techno ou un projet..." 
+                   value="{{ request.GET.q }}">
+            <button class="btn btn-primary px-4 fw-bold" type="submit">Explorer</button>
+        </div>
+        {% if request.GET.q %}
+            <a href="{% url 'home' %}" class="btn btn-outline-secondary">Effacer</a>
+        {% endif %}
+    </form>
+</div>
         <div class="section-label"><i class="fas fa-book-reader me-2"></i> MODULES DE COURS</div>
         <div class="row">
             {% for course in courses %}

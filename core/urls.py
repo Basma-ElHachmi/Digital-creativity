@@ -1,7 +1,15 @@
 from django.urls import path
-from . import views # On importe tes vues (le "Chef Cuisinier")
+from . import views
 
 urlpatterns = [
-    # Si l'URL est vide (''), on appelle la fonction 'home' dans views.py
+    
     path('', views.home, name='home'),
+    
+   
+    path('profile/', views.profile_view, name='profile'),
+    path('clear-profile/', views.clear_profile, name='clear_profile'),
+
+    
+    path('course/<int:course_id>/', views.course_detail, name='course_detail'),
+    path('project/<int:project_id>/', views.project_detail, name='project_detail'),
 ]

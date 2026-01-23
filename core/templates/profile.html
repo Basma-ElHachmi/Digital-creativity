@@ -3,115 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Profil - ENSA Nav</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Configuration Profil - ENSA Nav</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     
     <style>
+        :root {
+            --eng-blue: #1e3a8a;
+            --eng-blue-dark: #1e40af;
+            --electric-blue: #2563eb;
+            --bg-light: #f1f5f9;
+        }
+
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f4f7f6;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 40px 20px;
         }
+
         .profile-card {
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            border: none;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
             overflow: hidden;
             width: 100%;
-            max-width: 700px;
+            max-width: 750px;
         }
+
+        /* HEADER BLEU ROYAL (IDEM DASHBOARD) */
         .card-header-custom {
-            background: #1a2e4c;
+            background: linear-gradient(135deg, var(--eng-blue) 0%, var(--eng-blue-dark) 100%);
             color: white;
-            padding: 30px;
+            padding: 45px 30px;
             text-align: center;
+            position: relative;
         }
+
+        /* Effet de grille technique */
+        .card-header-custom::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.4;
+        }
+
+        .card-header-custom i.main-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: rgba(255,255,255,0.9);
+        }
+
+        /* FORMULAIRE */
+        .form-label {
+            font-weight: 700;
+            font-size: 13px;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-control, .form-select {
+            border: 2px solid #f1f5f9;
+            border-radius: 10px;
+            padding: 12px 15px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--electric-blue);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+            background-color: #fff;
+        }
+
+        /* TAGS / INTERETS */
+        .tag-select-input { display: none; }
+
         .tag-select-label {
-            display: block;
-            padding: 15px;
-            border: 2px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 20px;
+            border: 2px solid #f1f5f9;
             border-radius: 12px;
             cursor: pointer;
-            transition: 0.2s;
-            background: white;
-            font-weight: 500;
+            transition: 0.3s;
+            background: #fff;
+            font-weight: 600;
+            color: #64748b;
         }
+
+        .tag-select-label:hover {
+            border-color: #e2e8f0;
+            background: #f8fafc;
+        }
+
         .tag-select-input:checked + .tag-select-label {
-            border-color: #1a2e4c;
-            background-color: #f0f4f8;
-            color: #1a2e4c;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            border-color: var(--electric-blue);
+            background-color: rgba(37, 99, 235, 0.03);
+            color: var(--electric-blue);
         }
-        .tag-select-input { display: none; }
+
+        .check-icon {
+            opacity: 0;
+            transition: 0.2s;
+            color: var(--electric-blue);
+        }
+
+        .tag-select-input:checked + .tag-select-label .check-icon {
+            opacity: 1;
+        }
+
+        /* BOUTON ENREGISTRER (STYLE PREMIUM DASHBOARD) */
+        .btn-save {
+            background-color: var(--eng-blue);
+            color: white;
+            font-weight: 700;
+            padding: 16px;
+            border-radius: 12px;
+            border: none;
+            width: 100%;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-save:hover {
+            background-color: var(--electric-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: #64748b;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 20px;
+            transition: 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--eng-blue);
+        }
     </style>
 </head>
 <body>
 
     <div class="profile-card">
-        <div class="p-3">
-            <a href="{% url 'home' %}" class="text-decoration-none text-muted fw-bold small">
-                <i class="fas fa-arrow-left me-1"></i> Retour au Dashboard
+        <div class="px-4 pt-4">
+            <a href="{% url 'home' %}" class="back-link text-decoration-none">
+                <i class="fas fa-chevron-left me-2"></i> Dashboard
             </a>
         </div>
 
         <div class="card-header-custom">
-            <h2 class="mb-0 fw-bold">Configuration du Profil</h2>
-            <p class="mb-0 opacity-75">Dites-nous ce qui vous intéresse</p>
+            <i class="fas fa-graduation-cap main-icon"></i>
+            <h2 class="mb-1 fw-extrabold">Configuration du Profil</h2>
+            <p class="mb-0 fs-6">Personnalisez vos préférences d'ingénierie</p>
         </div>
 
-        <div class="p-5">
+        <div class="p-4 p-md-5">
             <form method="POST">
                 {% csrf_token %}
                 
-                <div class="mb-4">
-                    <label class="form-label fw-bold text-uppercase small text-muted">Votre Nom</label>
-                    <input type="text" class="form-control form-control-lg bg-light border-0" name="name" placeholder="Entrez votre nom..." required>
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">Nom complet</label>
+                        <input type="text" class="form-control" name="name" placeholder="Ex: Ahmed Benani" required>
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">Niveau d'études</label>
+                        <select class="form-select" name="level">
+                            <option value="beginner">Année Préparatoire (CP)</option>
+                            <option value="intermediate">Cycle Ingénieur (CI1/CI2)</option>
+                            <option value="advanced">Fin de cycle (CI3)</option>
+                        </select>
+                    </div>
                 </div>
 
-                <div class="mb-4">
-                    <label class="form-label fw-bold text-uppercase small text-muted">Votre Niveau</label>
-                    <select class="form-select form-select-lg bg-light border-0" name="level">
-                        <option value="beginner">Débutant</option>
-                        <option value="intermediate">Intermédiaire</option>
-                        <option value="advanced">Avancé</option>
-                    </select>
-                </div>
-
-                <div class="mb-4">
-                    <label class="form-label fw-bold text-uppercase small text-muted mb-3">Vos Intérêts</label>
+                <div class="mb-5">
+                    <label class="form-label mb-3">Domaines d'expertise & Intérêts</label>
                     <div class="row g-3">
                         {% for tag in tags %}
                             <div class="col-md-6">
                                 <input type="checkbox" class="tag-select-input" name="interests" value="{{ tag.id }}" id="tag_{{ tag.id }}">
-                                <label class="tag-select-label d-flex justify-content-between align-items-center" for="tag_{{ tag.id }}">
-                                    {{ tag.name }}
-                                    <i class="fas fa-check-circle text-primary opacity-0 check-icon"></i>
+                                <label class="tag-select-label" for="tag_{{ tag.id }}">
+                                    <span><i class="fas fa-hashtag me-2 opacity-50"></i>{{ tag.name }}</span>
+                                    <i class="fas fa-check-circle check-icon"></i>
                                 </label>
                             </div>
                         {% endfor %}
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-dark btn-lg w-100 py-3 rounded-pill fw-bold shadow-sm">
-                    Enregistrer et Explorer <i class="fas fa-arrow-right ms-2"></i>
+                <button type="submit" class="btn-save shadow-lg">
+                    Enregistrer le profil <i class="fas fa-arrow-right"></i>
                 </button>
             </form>
         </div>
     </div>
-
-    <style>
-        /* Petite animation pour l'icône check */
-        .tag-select-input:checked + .tag-select-label .check-icon {
-            opacity: 1 !important;
-        }
-    </style>
 
 </body>
 </html>

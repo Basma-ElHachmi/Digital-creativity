@@ -2,33 +2,202 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>{{ project.title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ project.title }} - ENSA Nav</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-</head>
-<body class="bg-light p-5">
-<div class="container">
-    <a href="{% url 'home' %}" class="btn btn-outline-secondary mb-4"><i class="fas fa-arrow-left"></i> Retour aux projets</a>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --eng-blue: #1e3a8a;
+            --eng-blue-dark: #1e40af;
+            --electric-blue: #2563eb;
+            --tech-green: #10b981;
+            --bg-light: #f1f5f9;
+        }
 
-    <div class="card shadow-lg border-0">
-        <div class="card-header bg-success text-white p-4">
-            <span class="badge bg-white text-success float-end mt-1">{{ project.get_level_display }}</span>
-            <h1 class="h2 mb-0"><i class="fas fa-project-diagram me-2"></i>{{ project.title }}</h1>
-        </div>
-        <div class="card-body p-5">
-            <h4 class="text-success mb-3">Description du challenge</h4>
-            <p class="lead text-dark">{{ project.description }}</p>
-            
-            <hr class="my-4">
-            
-            <h5 class="mb-3">Technologies et Tags :</h5>
-            <div>
-                {% for tag in project.tags.all %}
-                    <span class="badge bg-secondary p-2 me-1 fs-6">#{{ tag.name }}</span>
-                {% endfor %}
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .project-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            width: 100%;
+            max-width: 900px;
+            margin: auto;
+        }
+
+        /* HEADER BLEU ROYAL AVEC CHAPEAU */
+        .project-header {
+            background: linear-gradient(135deg, var(--eng-blue) 0%, var(--eng-blue-dark) 100%);
+            color: white;
+            padding: 50px 40px;
+            position: relative;
+        }
+
+        .project-header::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 25px 25px;
+            opacity: 0.4;
+        }
+
+        .project-category {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 15px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-block;
+            margin-bottom: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .header-title-flex {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-title-flex i {
+            font-size: 45px;
+            color: rgba(255,255,255,0.9);
+        }
+
+        /* CONTENU DU PROJET */
+        .project-body {
+            padding: 40px;
+        }
+
+        .info-label {
+            font-weight: 800;
+            font-size: 13px;
+            color: var(--eng-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .project-description {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #475569;
+            background: #f8fafc;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid var(--tech-green);
+        }
+
+        .tag-badge {
+            display: inline-block;
+            background: #f1f5f9;
+            color: #1e40af;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            margin: 0 8px 8px 0;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* ACTIONS */
+        .project-footer {
+            padding: 30px 40px;
+            background: #fcfcfc;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-action-eng {
+            background: var(--eng-blue);
+            color: white;
+            padding: 14px 30px;
+            border-radius: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: none;
+        }
+
+        .btn-action-eng:hover {
+            background: var(--electric-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+            color: white;
+        }
+
+        .back-link {
+            color: #64748b;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .back-link:hover { color: var(--eng-blue); }
+
+    </style>
+</head>
+<body>
+
+    <div class="project-container">
+        <div class="project-header">
+            <div class="project-category">Détails du Projet Pratique</div>
+            <div class="header-title-flex">
+                <i class="fas fa-graduation-cap"></i>
+                <div>
+                    <h1 class="mb-1 fw-extrabold">{{ project.title }}</h1>
+                    <p class="mb-0 opacity-75"><i class="fas fa-microchip me-2"></i>Engineering Solution v1.0</p>
+                </div>
             </div>
         </div>
+
+        <div class="project-body">
+            <div class="mb-5">
+                <div class="info-label"><i class="fas fa-align-left"></i> Description Technique</div>
+                <div class="project-description">
+                    {{ project.description }}
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <div class="info-label"><i class="fas fa-tags"></i> Technologies & Compétences</div>
+                <div class="d-flex flex-wrap">
+                    {% for tag in project.tags.all %}
+                        <span class="tag-badge"><i class="fas fa-code me-2 opacity-50"></i>{{ tag.name }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="project-footer">
+            <a href="{% url 'home' %}" class="back-link">
+                <i class="fas fa-arrow-left me-2"></i> Retour au Dashboard
+            </a>
+            <button class="btn-action-eng">
+                <i class="fas fa-rocket"></i> Lancer le Projet
+            </button>
+        </div>
     </div>
-</div>
+
 </body>
 </html>

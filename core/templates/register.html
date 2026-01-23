@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Inscription - ENSA Nav</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { background: #f1f5f9; font-family: 'Inter', sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; }
+        .register-card { background: white; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 450px; overflow: hidden; }
+        .header { background: #1e3a8a; color: white; padding: 30px; text-align: center; }
+        .body { padding: 30px; }
+        .btn-eng { background: #1e3a8a; color: white; width: 100%; padding: 12px; border-radius: 8px; border: none; font-weight: bold; }
+        .btn-eng:hover { background: #2563eb; }
+        input { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; }
+        .helptext { font-size: 11px; color: #666; display: block; margin-top: -10px; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="register-card">
+        <div class="header">
+            <i class="fas fa-user-plus fa-2x mb-2"></i>
+            <h3>Inscription Étudiant</h3>
+        </div>
+        <div class="body">
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn-eng">Créer mon compte <i class="fas fa-check ms-2"></i></button>
+            </form>
+            <div class="text-center mt-3">
+                <a href="{% url 'login' %}" class="text-decoration-none small">Déjà inscrit ? Connexion</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

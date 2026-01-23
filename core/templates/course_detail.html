@@ -2,61 +2,197 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ course.title }} - ENSA Navigator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        body { background-color: #f8f9fa; padding: 50px; }
-        .back-btn { margin-bottom: 20px; display: inline-block; }
+        :root {
+            --primary-dark: #1a2e4c;
+            --accent-blue: #007bff;
+            --bg-body: #f4f7f9;
+        }
+
+        body { 
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-body); 
+            padding-bottom: 50px;
+        }
+
+        /* BOUTON RETOUR */
+        .back-btn { 
+            margin-top: 30px;
+            margin-bottom: 25px; 
+            border-radius: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid #ddd;
+            background: white;
+            color: var(--primary-dark);
+        }
+
+        .back-btn:hover {
+            background: var(--primary-dark);
+            color: white;
+            transform: translateX(-5px);
+        }
+
+        /* HEADER DU COURS */
+        .course-header-card {
+            background: linear-gradient(135deg, #1a2e4c 0%, #2a4975 100%);
+            color: white;
+            border-radius: 24px;
+            padding: 50px;
+            border: none;
+            box-shadow: 0 15px 35px rgba(26, 46, 76, 0.15);
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-header-card::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            font-family: "Font Awesome 6 Free";
+            content: "\f5da"; /* Icône de diplôme */
+            font-weight: 900;
+            font-size: 150px;
+            opacity: 0.05;
+        }
+
+        .badge-level {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* RESSOURCES */
+        .resource-card {
+            background: white;
+            border-radius: 18px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .resource-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border-color: var(--accent-blue);
+            color: inherit;
+        }
+
+        .resource-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+
+        .icon-video { background: #fff0f0; color: #e74c3c; }
+        .icon-pdf { background: #f0f7ff; color: #3498db; }
+        .icon-link { background: #f0fff4; color: #27ae60; }
+
+        .tag-custom {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 13px;
+            margin-right: 8px;
+        }
+
+        .section-title {
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 25px;
+            font-size: 22px;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <a href="{% url 'home' %}" class="btn btn-outline-secondary back-btn">
-        <i class="fas fa-arrow-left"></i> Retour à l'accueil
+    <a href="{% url 'home' %}" class="btn back-btn px-4">
+        <i class="fas fa-chevron-left me-2"></i> Retour au Dashboard
     </a>
 
-    <div class="card shadow-sm border-0 mb-4">
-        <div class="card-body p-5">
-            <span class="badge bg-primary mb-2">{{ course.get_level_display }}</span>
-            <h1 class="display-5 fw-bold text-primary">{{ course.title }}</h1>
-            <p class="lead text-muted">{{ course.description }}</p>
+    <div class="course-header-card">
+        <div class="mb-4">
+            <span class="badge-level">{{ course.get_level_display }}</span>
+        </div>
+        <h1 class="display-4 fw-bold mb-3">{{ course.title }}</h1>
+        <p class="lead opacity-75 mb-4" style="max-width: 800px;">{{ course.description }}</p>
+        
+        <div class="d-flex flex-wrap mt-2">
+            {% for tag in course.tags.all %}
+                <span class="tag-custom"><i class="fas fa-tag me-2 small"></i>{{ tag.name }}</span>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <h3 class="section-title"><i class="fas fa-folder-open me-3 text-primary"></i>Contenu et Ressources</h3>
             
-            <div class="mt-3">
-                {% for tag in course.tags.all %}
-                    <span class="badge bg-light text-dark border">#{{ tag.name }}</span>
+            <div class="resource-container">
+                {% for resource in course.resources.all %}
+                    <a href="{{ resource.link }}" target="_blank" class="resource-card">
+                        <div class="resource-icon 
+                            {% if resource.resource_type == 'video' %}icon-video
+                            {% elif resource.resource_type == 'pdf' %}icon-pdf
+                            {% else %}icon-link{% endif %}">
+                            
+                            {% if resource.resource_type == 'video' %}
+                                <i class="fas fa-circle-play"></i>
+                            {% elif resource.resource_type == 'pdf' %}
+                                <i class="fas fa-file-pdf"></i>
+                            {% else %}
+                                <i class="fas fa-link"></i>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="flex-grow-1">
+                            <h5 class="mb-1 fw-bold">{{ resource.title }}</h5>
+                            <span class="text-muted small text-uppercase fw-bold" style="font-size: 10px; letter-spacing: 1px;">
+                                <i class="fas fa-info-circle me-1"></i> Format: {{ resource.get_resource_type_display }}
+                            </span>
+                        </div>
+                        
+                        <div class="text-muted ms-3">
+                            <i class="fas fa-external-link-alt"></i>
+                        </div>
+                    </a>
+                {% empty %}
+                    <div class="text-center p-5 bg-white rounded-4 shadow-sm">
+                        <i class="fas fa-box-open fa-3x text-light mb-3"></i>
+                        <p class="text-muted mb-0">Aucune ressource disponible pour ce cours pour le moment.</p>
+                    </div>
                 {% endfor %}
             </div>
         </div>
     </div>
-
-    <h3 class="mb-3"><i class="fas fa-layer-group me-2"></i>Ressources du cours</h3>
-    <div class="list-group">
-        {% for resource in course.resources.all %}
-            <a href="{{ resource.link }}" target="_blank" class="list-group-item list-group-item-action d-flex align-items-center p-3">
-                <div class="me-3 fs-4">
-                    {% if resource.resource_type == 'video' %}
-                        <i class="fas fa-play-circle text-danger"></i>
-                    {% elif resource.resource_type == 'pdf' %}
-                        <i class="fas fa-file-pdf text-danger"></i>
-                    {% else %}
-                        <i class="fas fa-link text-primary"></i>
-                    {% endif %}
-                </div>
-                <div>
-                    <h5 class="mb-0">{{ resource.title }}</h5>
-                    <small class="text-muted">{{ resource.get_resource_type_display }}</small>
-                </div>
-                <div class="ms-auto">
-                    <i class="fas fa-external-link-alt text-muted"></i>
-                </div>
-            </a>
-        {% empty %}
-            <div class="alert alert-warning">Aucune ressource disponible pour ce cours.</div>
-        {% endfor %}
-    </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

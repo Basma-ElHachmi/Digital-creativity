@@ -3,289 +3,275 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - ENSA Nav Pro</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Dashboard - ENSA Nav</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
     <style>
-        :root {
-            --eng-blue: #0f172a;       /* Bleu Nuit très Pro */
-            --electric-blue: #2563eb;  /* Bleu Électrique pour les actions */
-            --tech-green: #10b981;
-            --tech-red: #dc2626;
-            --bg-light: #f1f5f9;
-        }
-
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-light);
-            color: #1e293b;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7f6; 
+            overflow-x: hidden;
         }
 
-        /* SIDEBAR PROFESSIONNELLE */
         .sidebar {
             height: 100vh;
             background-color: #ffffff;
+            color: #333;
             position: fixed;
-            left: 0; top: 0; width: 280px;
-            padding: 30px 20px;
-            border-right: 1px solid #e2e8f0;
+            left: 0;
+            top: 0;
+            width: 260px;
+            padding-top: 30px;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
             z-index: 1000;
-            display: flex;
-            flex-direction: column;
         }
 
         .sidebar-brand {
-            font-weight: 800;
             font-size: 24px;
-            color: var(--eng-blue);
-            margin-bottom: 50px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .sidebar-brand i {
-            color: var(--electric-blue);
-            font-size: 28px;
-        }
-
-        .sidebar a, .logout-btn {
-            padding: 14px 18px;
-            text-decoration: none;
-            color: #64748b;
-            display: flex;
-            align-items: center;
-            border-radius: 12px;
-            margin-bottom: 8px;
-            font-weight: 500;
-            transition: all 0.2s;
-            border: none;
-            background: none;
-            width: 100%;
-            text-align: left;
-        }
-
-        .sidebar a:hover, .sidebar a.active, .logout-btn:hover {
-            background-color: #f8fafc;
-            color: var(--electric-blue);
-            box-shadow: inset 4px 0 0 var(--electric-blue);
-        }
-
-        .sidebar i { width: 30px; font-size: 18px; }
-
-        /* MAIN CONTENT */
-        .main-content { margin-left: 280px; padding: 40px; }
-
-        /* CADRE BIENVENUE BLEU PREMIUM */
-        .welcome-header {
-            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
-            border-radius: 166px;
-            border-radius: 16px;
-            padding: 50px;
-            color: white;
-            box-shadow: 0 10px 30px rgba(30, 64, 175, 0.25);
-            border: 1px solid rgba(255,255,255,0.1);
+            font-weight: 700;
+            text-align: center;
+            color: #1a2e4c;
             margin-bottom: 40px;
-            position: relative;
+            letter-spacing: 1px;
         }
 
-        .welcome-header h1 { font-weight: 700; margin-bottom: 10px; }
-        .welcome-header p { font-weight: 300; opacity: 0.85; max-width: 600px; }
-
-        /* BOUTON INITIALISER / COMMENCER */
-        .btn-premium {
-            background-color: #ffffff;
-            color: #1e40af;
-            font-weight: 700;
-            padding: 12px 28px;
-            border-radius: 10px;
-            border: none;
-            display: inline-flex;
-            align-items: center;
-            transition: all 0.3s ease;
+        .sidebar a {
+            padding: 15px 25px;
             text-decoration: none;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            font-size: 16px;
+            color: #6c757d;
+            display: block;
+            transition: 0.3s;
+            border-left: 4px solid transparent;
         }
 
-        .btn-premium:hover {
-            background-color: #f8fafc;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.15);
-            color: #2563eb;
+        .sidebar a:hover, .sidebar a.active {
+            background-color: #f8f9fa;
+            color: #1a2e4c;
+            border-left-color: #1a2e4c;
+            font-weight: 500;
         }
 
-        /* SECTION TITLES */
-        .section-label {
-            font-weight: 700;
-            font-size: 18px;
-            color: var(--eng-blue);
-            margin: 40px 0 20px 0;
+        .sidebar i { width: 30px; }
+
+        .main-content {
+            margin-left: 260px;
+            padding: 40px;
+        }
+
+        /* --- STYLE DE LA BARRE DE RECHERCHE --- */
+        .search-container {
+            margin-bottom: 40px;
+            max-width: 800px;
+        }
+
+        .search-box {
+            background: white;
+            border-radius: 50px;
+            padding: 5px 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
             display: flex;
             align-items: center;
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 10px;
+            transition: 0.3s;
         }
 
-        /* CARTES ET GRILLE */
-        .dashboard-card {
-            background: #ffffff;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 24px;
-            height: 100%;
+        .search-box:focus-within {
+            box-shadow: 0 4px 20px rgba(26, 46, 76, 0.1);
+            border-color: #1a2e4c;
+        }
+
+        .search-box input {
+            border: none;
+            padding: 12px 20px;
+            width: 100%;
+            outline: none;
+            background: transparent;
+            font-size: 15px;
+        }
+
+        .search-box button {
+            background: #1a2e4c;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 40px;
+            font-weight: 600;
             transition: 0.3s;
+        }
+
+        .search-box button:hover {
+            background: #2a4975;
+        }
+
+        /* CARTES MODERNES */
+        .dashboard-card {
+            background: white;
+            border: none;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            transition: transform 0.2s, box-shadow 0.2s;
+            height: 100%;
             position: relative;
+            overflow: hidden;
         }
 
         .dashboard-card:hover {
-            border-color: var(--electric-blue);
-            box-shadow: 0 12px 20px rgba(0,0,0,0.05);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            cursor: pointer;
         }
 
-        .tag-eng {
-            font-size: 11px;
-            text-transform: uppercase;
-            font-weight: 700;
-            background: #f1f5f9;
-            color: #475569;
-            padding: 4px 10px;
-            border-radius: 4px;
-            margin-right: 6px;
+        .border-left-accent {
+            position: absolute;
+            left: 0; top: 0; bottom: 0; width: 5px;
         }
 
-        .btn-outline-danger {
-            border-width: 2px;
-            font-weight: 600;
+        .card-title { font-weight: 600; color: #2c3e50; margin-bottom: 10px; }
+
+        .tag-pill {
+            background-color: #edf2f7;
+            color: #4a5568;
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-right: 5px;
+        }
+
+        .welcome-header {
+            background: linear-gradient(135deg, #1a2e4c 0%, #2a4975 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 20px rgba(26, 46, 76, 0.2);
         }
     </style>
 </head>
 <body>
 
     <div class="sidebar">
-        <div class="sidebar-brand">
-            <i class="fas fa-graduation-cap"></i> ENSA NAV
-        </div>
-        
-        <nav>
-            <a href="{% url 'home' %}" class="active"><i class="fas fa-chart-line"></i> Dashboard</a>
-            <a href="{% url 'profile' %}"><i class="fas fa-user-gear"></i> Paramètres</a>
-            
-            {% if user.is_staff %}
-            <div class="mt-5 px-3 mb-2 text-uppercase text-muted fw-bold" style="font-size: 11px;">Management</div>
-            <a href="/admin" target="_blank" style="color: var(--tech-red) !important;">
-                <i class="fas fa-server"></i> Administration
-            </a>
-            {% endif %}
-
-            <form action="{% url 'logout' %}" method="post" style="margin-top: 20px;">
-                {% csrf_token %}
-                <button type="submit" class="logout-btn" style="color: var(--tech-red) !important;">
-                    <i class="fas fa-power-off"></i> Déconnexion
-                </button>
-            </form>
-        </nav>
+        <div class="sidebar-brand"><i class="fas fa-graduation-cap me-2"></i>ENSA Nav</div>
+        <a href="{% url 'home' %}" class="active"><i class="fas fa-th-large"></i> Tableau de bord</a>
+        <a href="{% url 'profile' %}"><i class="fas fa-sliders-h"></i> Configurer Profil</a>
+        {% if user.is_staff %}
+        <div class="mt-4 px-4 text-uppercase small text-muted fw-bold">Gestion</div>
+        <a href="/admin" target="_blank" class="text-danger"><i class="fas fa-lock"></i> Administration</a>
+        {% endif %}
     </div>
 
     <div class="main-content">
         
         {% if user_profile %}
-            <div class="welcome-header d-flex justify-content-between align-items-center">
+            <div class="alert alert-success border-0 shadow-sm d-flex justify-content-between align-items-center bg-white" role="alert" style="border-left: 5px solid #198754 !important;">
                 <div>
-                    <h1>Bonjour, {{ user_profile.name }} !</h1>
-                    <p class="fs-5 mb-0">Espace Ingénieur : {{ user_profile.level }} | Données synchronisées.</p>
+                    <h4 class="alert-heading mb-1 text-success fw-bold">Bonjour, {{ user_profile.name }} !</h4>
+                    <p class="mb-0 text-muted">Voici vos recommandations personnalisées ({{ user_profile.level }}).</p>
                 </div>
-                <a href="{% url 'clear_profile' %}" class="btn-premium">
-                    <i class="fas fa-sync-alt me-2"></i> Réinitialiser
-                </a>
+                <a href="{% url 'clear_profile' %}" class="btn btn-light btn-sm border"><i class="fas fa-sync-alt me-1"></i> Réinitialiser</a>
             </div>
         {% else %}
             <div class="welcome-header">
                 <div class="row align-items-center">
-                    <div class="col-md-9">
-                        <h1>Bienvenue sur votre Espace, {{ user.username }}</h1>
-                        <p class="fs-5 mb-0">La plateforme centrale pour vos cours et projets ENSA.</p>
+                    <div class="col-md-8">
+                        <h1 class="fw-bold">Bienvenue sur votre Espace</h1>
+                        <p class="mb-0 opacity-75">Optimisez votre expérience d'apprentissage à l'ENSA.</p>
                     </div>
-                    <div class="col-md-3 text-end">
-                        <a href="{% url 'profile' %}" class="btn-premium">
-                            Initialiser <i class="fas fa-play ms-2"></i>
-                        </a>
+                    <div class="col-md-4 text-end">
+                        <a href="{% url 'profile' %}" class="btn btn-light text-primary fw-bold shadow">Commencer <i class="fas fa-arrow-right ms-2"></i></a>
                     </div>
                 </div>
             </div>
         {% endif %}
-<div class="search-section mb-4">
-    <form action="{% url 'home' %}" method="GET" class="d-flex gap-2">
-        <div class="input-group shadow-sm">
-            <span class="input-group-text bg-white border-end-0">
-                <i class="fas fa-search text-muted"></i>
-            </span>
-            <input type="text" name="q" class="form-control border-start-0 ps-0" 
-                   placeholder="Rechercher un module, une techno ou un projet..." 
-                   value="{{ request.GET.q }}">
-            <button class="btn btn-primary px-4 fw-bold" type="submit">Explorer</button>
+
+        <div class="search-container">
+            <form action="{% url 'home' %}" method="GET" class="search-box">
+                <i class="fas fa-search ms-3 text-muted"></i>
+                <input type="text" name="q" placeholder="Rechercher un module, un projet ou une techno..." value="{{ request.GET.q }}">
+                <button type="submit">Explorer</button>
+            </form>
         </div>
-        {% if request.GET.q %}
-            <a href="{% url 'home' %}" class="btn btn-outline-secondary">Effacer</a>
-        {% endif %}
-    </form>
-</div>
-        <div class="section-label"><i class="fas fa-book-reader me-2"></i> MODULES DE COURS</div>
+
+        <div class="d-flex align-items-center mb-4">
+            <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px; color: white;">
+                <i class="fas fa-book"></i>
+            </div>
+            <h3 class="mb-0 fw-bold text-dark">Modules de Cours</h3>
+        </div>
+
         <div class="row">
             {% for course in courses %}
             <div class="col-md-6 col-lg-4 mb-4">
-                <a href="{% url 'course_detail' course.id %}" class="text-decoration-none color-inherit">
+                <a href="{% url 'course_detail' course.id %}" style="text-decoration: none; color: inherit;">
                     <div class="dashboard-card">
+                        <div class="border-left-accent bg-primary"></div>
                         <div class="d-flex justify-content-between mb-3">
-                            <span class="tag-eng">{{ course.get_level_display }}</span>
-                            <i class="fas fa-link text-muted"></i>
+                            <span class="badge bg-primary bg-opacity-10 text-primary">{{ course.get_level_display }}</span>
+                            <i class="fas fa-chevron-right text-muted small"></i>
                         </div>
-                        <h5 class="fw-bold text-dark">{{ course.title }}</h5>
-                        <p class="text-muted small mb-3">{{ course.description|truncatewords:15 }}</p>
-                        <div class="mt-auto">
+                        <h5 class="card-title">{{ course.title }}</h5>
+                        <p class="text-muted small mb-4">{{ course.description|truncatewords:15 }}</p>
+                        <div class="d-flex flex-wrap">
                             {% for tag in course.tags.all %}
-                                <span class="badge bg-light text-secondary border">#{{ tag.name }}</span>
+                                <span class="tag-pill">#{{ tag.name }}</span>
                             {% endfor %}
                         </div>
                     </div>
                 </a>
             </div>
+            {% empty %}
+            <div class="col-12"><p class="text-muted fst-italic">Aucun cours trouvé.</p></div>
             {% endfor %}
         </div>
 
-        <div class="section-label"><i class="fas fa-microchip me-2"></i> PROJETS PRATIQUES</div>
+        <div class="d-flex align-items-center mb-4 mt-5">
+            <div class="bg-success rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px; color: white;">
+                <i class="fas fa-project-diagram"></i>
+            </div>
+            <h3 class="mb-0 fw-bold text-dark">Projets Pratiques</h3>
+        </div>
+
         <div class="row">
             {% for project in projects %}
             <div class="col-md-6 mb-4">
-                <a href="{% url 'project_detail' project.id %}" class="text-decoration-none">
-                    <div class="dashboard-card" style="border-left: 5px solid var(--tech-green);">
-                        <h5 class="fw-bold text-dark">{{ project.title }}</h5>
-                        <p class="text-muted small mb-0">{{ project.description|truncatewords:20 }}</p>
+                <a href="{% url 'project_detail' project.id %}" style="text-decoration: none; color: inherit;">
+                    <div class="dashboard-card">
+                        <div class="border-left-accent bg-success"></div>
+                        <h5 class="card-title">{{ project.title }}</h5>
+                        <p class="text-muted small">{{ project.description|truncatewords:20 }}</p>
                     </div>
                 </a>
             </div>
             {% endfor %}
         </div>
 
-        <div class="section-label"><i class="fas fa-robot me-2"></i> NAVIGATEURS IA</div>
+        <div class="d-flex align-items-center mb-4 mt-5">
+            <div class="bg-danger rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px; color: white;">
+                <i class="fas fa-robot"></i>
+            </div>
+            <h3 class="mb-0 fw-bold text-dark">Boîte à Outils IA</h3>
+        </div>
+
         <div class="row">
             {% for tool in ai_navigators %}
             <div class="col-md-4 mb-4">
-                <a href="{{ tool.link }}" target="_blank" class="text-decoration-none">
-                    <div class="dashboard-card text-center border-danger border-opacity-10">
-                        <div class="mb-3 text-danger"><i class="fas fa-bolt fa-2x"></i></div>
-                        <h5 class="fw-bold text-dark">{{ tool.name }}</h5>
-                        <p class="small text-muted">{{ tool.description }}</p>
-                        <span class="btn btn-sm btn-outline-danger rounded-pill px-4 mt-2">Ouvrir</span>
+                <a href="{{ tool.link }}" target="_blank" style="text-decoration: none; color: inherit;">
+                    <div class="dashboard-card text-center py-4">
+                        <div class="border-left-accent bg-danger"></div>
+                        <div class="mb-3 text-danger fs-2"><i class="fas fa-bolt"></i></div>
+                        <h5 class="card-title">{{ tool.name }}</h5>
+                        <p class="small text-muted mb-0">{{ tool.description }}</p>
+                        <span class="btn btn-sm btn-outline-danger mt-3 rounded-pill px-4">Ouvrir</span>
                     </div>
                 </a>
             </div>
             {% endfor %}
         </div>
-
     </div>
-
 </body>
 </html>

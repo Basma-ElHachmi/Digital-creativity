@@ -1,4 +1,4 @@
-# 🎓 Academic Recommendation Platform
+#  Academic Recommendation Platform
 
 ##  Description
 Cette application web développée avec Django permet de gérer et recommander
@@ -26,23 +26,18 @@ Le projet a été réalisé dans le cadre d’un travail en équipe.
 ##  Installation et lancement du projet
 
 ```bash
-git clone https://github.com/Basma-ElHachmi/Digital-creativity.git
+git clone [https://github.com/Basma-ElHachmi/Digital-creativity.git](https://github.com/Basma-ElHachmi/Digital-creativity.git)
 cd Digital-creativity
 python -m venv .venv
-.venv\Scripts\activate
-pip install -r requirements.txt
+# ... (autres commandes)
 python manage.py runserver
+```
 
-Après avoir lancé le serveur Django avec `python manage.py runserver`,  
-ouvrir votre navigateur à l’adresse suivante pour voir le site :
-
-http://127.0.0.1:8000/
+Une fois le serveur lancé, ouvrez votre navigateur à l'adresse : http://127.0.0.1:8000/
 
 ---
 
-Répartition des tâches:
-
-##  Répartition des tâches
+## Répartition des tâches
 
 - **Base de données : Basma El Hachmi**  
   Responsable de la création et gestion de la base de données (db.sqlite3),  
@@ -54,7 +49,7 @@ Répartition des tâches:
 
 - **Documentation & README : Maroua El Orche**  
   Responsable de la documentation complète du projet,  
-  création du fichier README.md et explication desfonctionnalités pour le professeur.
+  création du fichier README.md et explication des fonctionnalités pour le professeur.
 
 - **Algorithmes  : Nada Ech-chedadi**  
   Responsable de la logique de l’application :  
@@ -65,11 +60,12 @@ Répartition des tâches:
   Toutes les autres tâches de coordination, tests et améliorations mineures.
 
 ---
-
-##  Captures d'écran du site
+## Captures d'écran du site
 
 ![Page d'accueil](screenshots/homepage.png)
 ![Page des cours](screenshots/courses.png)
-![page de profil](screenshots/profil.png)
+![Page de profil](screenshots/profil.png)
 
----
+
+
+

@@ -38,6 +38,7 @@ ouvrir votre navigateur à l’adresse suivante pour voir le site :
 
 http://127.0.0.1:8000/
 
+---
 
 Répartition des tâches:
 
@@ -63,8 +64,12 @@ Répartition des tâches:
 - **Autres contributions : Équipe**  
   Toutes les autres tâches de coordination, tests et améliorations mineures.
 
+---
+
 ##  Captures d'écran du site
 
 ![Page d'accueil](screenshots/homepage.png)
 ![Page des cours](screenshots/courses.png)
 ![page de profil](screenshots/profil.png)
+
+---

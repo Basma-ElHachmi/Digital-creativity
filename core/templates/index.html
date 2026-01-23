@@ -4,244 +4,190 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - ENSA Nav Pro</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     
     <style>
         :root {
-            --eng-blue: #1a2e4c;
-            --electric-blue: #2563eb;
-            --tech-green: #10b981;
-            --tech-red: #dc2626;
-            --bg-light: #f1f5f9;
+            --primary-dark: #0f172a;
+            --accent-blue: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --glass-bg: rgba(255, 255, 255, 0.8);
+            --card-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-light);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
             color: #1e293b;
-            overflow-x: hidden;
+            min-height: 100vh;
         }
 
-        /* --- LOADER --- */
-        #loader {
-            position: fixed;
-            width: 100%;
-            height: 100vh;
-            background: #ffffff;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.5s ease;
-        }
-
-        /* --- EFFET ZOOM --- */
-        .zoom-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease !important;
-            cursor: pointer;
-        }
-        .zoom-card:hover {
-            transform: translateY(-10px) scale(1.02) !important;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
-            border-color: var(--electric-blue) !important;
-        }
-
-        /* SIDEBAR */
+        /* SIDEBAR FUTURISTE */
         .sidebar {
-            height: 100vh;
-            background-color: #ffffff;
+            height: 95vh;
+            background: var(--primary-dark);
+            color: white;
             position: fixed;
-            left: 0; top: 0; width: 280px;
-            padding: 30px 20px;
-            border-right: 1px solid #e2e8f0;
+            left: 20px; top: 2.5vh;
+            width: 280px;
+            border-radius: 24px;
+            padding: 40px 20px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
             z-index: 1000;
-            display: flex;
-            flex-direction: column;
         }
 
         .sidebar-brand {
-            font-weight: 800;
-            font-size: 24px;
-            color: var(--eng-blue);
-            margin-bottom: 50px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            font-size: 26px; font-weight: 800;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 50px; text-align: center;
         }
 
-        .sidebar-brand i { color: var(--electric-blue); font-size: 28px; }
-
-        .sidebar a, .logout-btn {
-            padding: 14px 18px;
-            text-decoration: none;
-            color: #64748b;
-            display: flex;
-            align-items: center;
-            border-radius: 12px;
-            margin-bottom: 8px;
+        .sidebar a {
+            padding: 16px 20px; text-decoration: none; color: #94a3b8;
+            display: flex; align-items: center; border-radius: 16px;
+            margin-bottom: 10px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             font-weight: 500;
-            transition: all 0.2s;
-            border: none;
-            background: none;
-            width: 100%;
         }
 
-        .sidebar a:hover, .sidebar a.active, .logout-btn:hover {
-            background-color: #f8fafc;
-            color: var(--electric-blue);
-            box-shadow: inset 4px 0 0 var(--electric-blue);
+        .sidebar a:hover, .sidebar a.active {
+            background: rgba(59, 130, 246, 0.15);
+            color: white; transform: translateX(5px);
         }
 
-        .main-content { margin-left: 280px; padding: 40px; }
+        .sidebar i { font-size: 20px; margin-right: 15px; }
 
-        /* WELCOME HEADER */
+        /* CONTENU PRINCIPAL */
+        .main-content { margin-left: 320px; padding: 40px 60px; }
+
+        /* HEADER MAGNIFIQUE */
         .welcome-header {
-            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
-            border-radius: 16px;
-            padding: 50px;
-            color: white;
-            box-shadow: 0 10px 30px rgba(30, 64, 175, 0.25);
-            margin-bottom: 40px;
+            background: linear-gradient(110deg, rgba(15, 23, 42, 0.95) 30%, rgba(30, 58, 138, 0.8) 100%), 
+                        url('https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover; background-position: center;
+            padding: 60px; border-radius: 32px; color: white;
+            position: relative; overflow: hidden;
+            box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.3);
+            margin-bottom: 40px; border: 1px solid rgba(255,255,255,0.1);
         }
 
-        .btn-premium {
-            background-color: #ffffff;
-            color: #1e40af;
-            font-weight: 700;
-            padding: 12px 28px;
-            border-radius: 10px;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            transition: all 0.3s;
+        .welcome-header h1 { font-weight: 800; font-size: 3rem; letter-spacing: -1px; }
+
+        /* BARRE DE RECHERCHE INGÉNIEUR */
+        .search-box {
+            background: white; border-radius: 20px; padding: 8px;
+            box-shadow: var(--card-shadow); display: flex;
+            align-items: center; border: 1px solid rgba(226, 232, 240, 0.8);
+            transition: 0.3s; margin-bottom: 50px;
         }
 
-        .btn-premium:hover {
-            background-color: #f8fafc;
-            transform: translateY(-2px);
-            color: var(--electric-blue);
-        }
+        .search-box:focus-within { transform: translateY(-2px); border-color: var(--accent-blue); box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.1); }
+        .search-box input { border: none; padding: 12px 25px; width: 100%; outline: none; font-size: 16px; font-weight: 500; }
+        .search-box button { background: var(--primary-dark); color: white; border: none; padding: 12px 30px; border-radius: 14px; font-weight: 600; transition: 0.3s; }
+        .search-box button:hover { background: var(--accent-blue); }
 
-        .section-label {
-            font-weight: 700;
-            font-size: 18px;
-            color: var(--eng-blue);
-            margin: 40px 0 20px 0;
-            display: flex;
-            align-items: center;
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 10px;
-        }
-
+        /* CARTES TECH */
         .dashboard-card {
-            background: #ffffff;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 24px;
-            height: 100%;
-            position: relative;
+            background: white; border: none; border-radius: 24px;
+            padding: 30px; height: 100%; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--card-shadow); border: 1px solid #f1f5f9;
+            position: relative; overflow: hidden;
         }
 
-        .tag-eng {
-            font-size: 11px;
-            text-transform: uppercase;
-            font-weight: 700;
-            background: #f1f5f9;
-            color: #475569;
-            padding: 4px 10px;
-            border-radius: 4px;
+        .dashboard-card::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
+            opacity: 0; transition: 0.3s;
         }
+
+        .dashboard-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px -12px rgba(15, 23, 42, 0.15);
+        }
+
+        .dashboard-card:hover::before { opacity: 1; }
+
+        .section-title {
+            font-size: 22px; font-weight: 800; color: var(--primary-dark);
+            margin-bottom: 25px; display: flex; align-items: center; gap: 15px;
+        }
+
+        .section-title i { color: var(--accent-blue); }
+
+        .badge-tech {
+            background: #eff6ff; color: var(--accent-blue);
+            padding: 6px 14px; border-radius: 10px; font-size: 12px; font-weight: 700;
+        }
+
+        .btn-ia {
+            background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+            color: white; border: none; border-radius: 12px;
+            padding: 10px 20px; font-weight: 600; width: 100%; transition: 0.3s;
+        }
+
+        .btn-ia:hover { transform: scale(1.02); color: white; box-shadow: 0 10px 20px rgba(239, 68, 68, 0.3); }
+
     </style>
 </head>
 <body>
 
-    <div id="loader">
-        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status"></div>
-        <p class="mt-3 fw-bold text-primary">Préparation de votre espace ENSA...</p>
-    </div>
-
     <div class="sidebar">
         <div class="sidebar-brand">
-            <i class="fas fa-graduation-cap"></i> ENSA NAV
+            <i class="fas fa-microchip mb-2 d-block"></i>
+            ENSA NAV PRO
         </div>
-        <nav>
-            <a href="{% url 'home' %}" class="active"><i class="fas fa-chart-line"></i> Dashboard</a>
-            <a href="{% url 'profile' %}"><i class="fas fa-user-gear"></i> Paramètres</a>
-            
-            {% if user.is_staff %}
-            <div class="mt-5 px-3 mb-2 text-uppercase text-muted fw-bold" style="font-size: 11px;">Management</div>
-            <a href="/admin" target="_blank" style="color: var(--tech-red) !important;">
-                <i class="fas fa-server"></i> Administration
-            </a>
-            {% endif %}
-
-            <form action="{% url 'logout' %}" method="post" style="margin-top: 20px;">
-                {% csrf_token %}
-                <button type="submit" class="logout-btn" style="color: var(--tech-red) !important;">
-                    <i class="fas fa-power-off"></i> Déconnexion
-                </button>
-            </form>
-        </nav>
+        <a href="{% url 'home' %}" class="active"><i class="fas fa-rocket"></i> Dashboard</a>
+        <a href="{% url 'profile' %}"><i class="fas fa-fingerprint"></i> Profil Ingénieur</a>
+        {% if user.is_staff %}
+        <div class="mt-5 px-3 text-uppercase small text-muted fw-bold mb-2">Core System</div>
+        <a href="/admin" target="_blank" style="color: #ef4444;"><i class="fas fa-terminal"></i> Admin Root</a>
+        {% endif %}
     </div>
 
     <div class="main-content">
-        {% if user_profile %}
-            <div class="welcome-header d-flex justify-content-between align-items-center">
-                <div>
-                    <h1>Bonjour, {{ user_profile.name }} !</h1>
-                    <p class="fs-5 mb-0">Espace Ingénieur : {{ user_profile.level }} | Données synchronisées.</p>
+        
+        <div class="welcome-header">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <span class="badge bg-primary mb-3 px-3 py-2 rounded-pill">Statut: Ingénieur Actif</span>
+                    <h1>Bonjour{% if user_profile %}, {{ user_profile.name }}{% endif %}</h1>
+                    <p class="fs-5 opacity-75">Architecture de données et ressources académiques ENSA.</p>
                 </div>
-                <a href="{% url 'clear_profile' %}" class="btn-premium">
-                    <i class="fas fa-sync-alt me-2"></i> Réinitialiser
-                </a>
-            </div>
-        {% else %}
-            <div class="welcome-header d-flex justify-content-between align-items-center">
-                <div>
-                    <h1>Bienvenue, {{ user.username }}</h1>
-                    <p class="fs-5 mb-0">La plateforme centrale pour vos cours et projets ENSA.</p>
+                {% if not user_profile %}
+                <div class="col-md-4 text-end">
+                    <a href="{% url 'profile' %}" class="btn btn-light btn-lg rounded-pill fw-bold px-4 py-3 shadow-lg">Initialiser Système <i class="fas fa-play ms-2"></i></a>
                 </div>
-                <a href="{% url 'profile' %}" class="btn-premium">
-                    Initialiser <i class="fas fa-play ms-2"></i>
-                </a>
-            </div>
-        {% endif %}
-
-        <div class="search-section mb-4">
-            <form action="{% url 'home' %}" method="GET" class="d-flex gap-2">
-                <div class="input-group shadow-sm">
-                    <span class="input-group-text bg-white border-end-0">
-                        <i class="fas fa-search text-muted"></i>
-                    </span>
-                    <input type="text" name="q" class="form-control border-start-0 ps-0" 
-                           placeholder="Rechercher un module, une techno ou un projet..." 
-                           value="{{ request.GET.q }}">
-                    <button class="btn btn-primary px-4 fw-bold" type="submit">Explorer</button>
-                </div>
-                {% if request.GET.q %}
-                    <a href="{% url 'home' %}" class="btn btn-outline-secondary">Effacer</a>
                 {% endif %}
+            </div>
+        </div>
+
+        <div class="search-container">
+            <form action="{% url 'home' %}" method="GET" class="search-box">
+                <i class="fas fa-terminal ms-4 text-muted"></i>
+                <input type="text" name="q" placeholder="Rechercher dans la base de connaissance (Python, IA, Maths...)" value="{{ request.GET.q }}">
+                <button type="submit">Query DB</button>
             </form>
         </div>
 
-        <div class="section-label"><i class="fas fa-book-reader me-2"></i> MODULES DE COURS</div>
+        <div class="section-title">
+            <i class="fas fa-layer-group"></i> MODULES DE RÉFÉRENCE
+        </div>
         <div class="row">
             {% for course in courses %}
-            <div class="col-md-6 col-lg-4 mb-4">
-                <a href="{% url 'course_detail' course.id %}" class="text-decoration-none">
-                    <div class="dashboard-card zoom-card">
-                        <div class="d-flex justify-content-between mb-3">
-                            <span class="tag-eng">{{ course.get_level_display }}</span>
-                            <i class="fas fa-link text-muted"></i>
+            <div class="col-md-4 mb-4">
+                <a href="{% url 'course_detail' course.id %}" style="text-decoration: none; color: inherit;">
+                    <div class="dashboard-card">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <span class="badge-tech">{{ course.get_level_display }}</span>
+                            <i class="fas fa-code-branch text-muted"></i>
                         </div>
-                        <h5 class="fw-bold text-dark">{{ course.title }}</h5>
-                        <p class="text-muted small mb-3">{{ course.description|truncatewords:15 }}</p>
-                        <div class="mt-auto">
+                        <h5 class="fw-bold mb-3 text-dark">{{ course.title }}</h5>
+                        <p class="text-muted small mb-4">{{ course.description|truncatewords:12 }}</p>
+                        <div class="d-flex flex-wrap gap-2">
                             {% for tag in course.tags.all %}
-                                <span class="badge bg-light text-secondary border">#{{ tag.name }}</span>
+                                <span class="tag-pill">#{{ tag.name }}</span>
                             {% endfor %}
                         </div>
                     </div>
@@ -250,13 +196,15 @@
             {% endfor %}
         </div>
 
-        <div class="section-label"><i class="fas fa-microchip me-2"></i> PROJETS PRATIQUES</div>
+        <div class="section-title mt-5">
+            <i class="fas fa-diagram-project"></i> WORKSPACES PRATIQUES
+        </div>
         <div class="row">
             {% for project in projects %}
             <div class="col-md-6 mb-4">
-                <a href="{% url 'project_detail' project.id %}" class="text-decoration-none">
-                    <div class="dashboard-card zoom-card" style="border-left: 5px solid var(--tech-green);">
-                        <h5 class="fw-bold text-dark">{{ project.title }}</h5>
+                <a href="{% url 'project_detail' project.id %}" style="text-decoration: none; color: inherit;">
+                    <div class="dashboard-card" style="border-right: 4px solid var(--accent-cyan);">
+                        <h5 class="fw-bold text-dark mb-2">{{ project.title }}</h5>
                         <p class="text-muted small mb-0">{{ project.description|truncatewords:20 }}</p>
                     </div>
                 </a>
@@ -264,34 +212,21 @@
             {% endfor %}
         </div>
 
-        <div class="section-label"><i class="fas fa-robot me-2"></i> NAVIGATEURS IA</div>
+        <div class="section-title mt-5">
+            <i class="fas fa-brain"></i> NEURAL NAVIGATORS
+        </div>
         <div class="row">
             {% for tool in ai_navigators %}
             <div class="col-md-4 mb-4">
-                <a href="{{ tool.link }}" target="_blank" class="text-decoration-none">
-                    <div class="dashboard-card text-center zoom-card border-danger border-opacity-10">
-                        <div class="mb-3 text-danger"><i class="fas fa-bolt fa-2x"></i></div>
-                        <h5 class="fw-bold text-dark">{{ tool.name }}</h5>
-                        <p class="small text-muted">{{ tool.description }}</p>
-                        <span class="btn btn-sm btn-outline-danger rounded-pill px-4 mt-2">Ouvrir</span>
-                    </div>
-                </a>
+                <div class="dashboard-card text-center">
+                    <div class="mb-3 text-danger fs-2"><i class="fas fa-bolt"></i></div>
+                    <h5 class="fw-bold mb-3">{{ tool.name }}</h5>
+                    <a href="{{ tool.link }}" target="_blank" class="btn btn-ia">Lancer l'IA</a>
+                </div>
             </div>
             {% endfor %}
         </div>
+
     </div>
-
-    <script>
-        window.addEventListener('load', function() {
-            const loader = document.getElementById('loader');
-            setTimeout(() => {
-                loader.style.opacity = '0';
-                setTimeout(() => {
-                    loader.style.display = 'none';
-                }, 500);
-            }, 500);
-        });
-    </script>
-
 </body>
 </html>

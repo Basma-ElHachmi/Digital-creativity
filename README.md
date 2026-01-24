@@ -3,7 +3,8 @@
 ##  Description
 Cette application web développée avec Django permet de gérer et recommander
 des ressources académiques (cours, vidéos, sites web) aux étudiants.
-Le projet a été réalisé dans le cadre d’un travail en équipe.
+Le projet a été réalisé dans le cadre d’un travail en équipe..
+
 
 ---
 

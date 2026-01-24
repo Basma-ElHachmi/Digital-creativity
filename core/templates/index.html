@@ -227,25 +227,51 @@
             </form>
         </div>
 
+        <div id="learning-quiz" class="dashboard-card bg-white mb-4 shadow-sm border-0" style="display:none; border-radius: 20px; border-left: 5px solid var(--electric-blue) !important;">
+            <div id="q-box" class="p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="badge bg-primary-subtle text-primary px-3 py-2" id="q-number">Question 1/5</span>
+                    <button class="btn-close" onclick="location.reload()"></button>
+                </div>
+                <h4 id="q-text" class="fw-bold mb-4 text-dark"></h4>
+                <div class="d-grid gap-3" id="q-options"></div>
+            </div>
+            
+            <div id="q-feedback" style="display:none;" class="text-center p-5">
+                <div id="feedback-icon" class="mb-3"></div>
+                <h3 id="feedback-title" class="fw-bold"></h3>
+                <p id="feedback-desc" class="text-muted fs-5"></p>
+                <button class="btn btn-primary mt-4 px-5 rounded-pill fw-bold" onclick="nextQuestion()">
+                    Continuer <i class="fas fa-arrow-right ms-2"></i>
+                </button>
+            </div>
+        </div>
+
         <div class="section-label"><i class="fas fa-book-reader me-2"></i> MODULES DE COURS</div>
         <div class="row">
             {% for course in courses %}
             <div class="col-md-6 col-lg-4 mb-4">
-                <a href="{% url 'course_detail' course.id %}" class="text-decoration-none">
-                    <div class="dashboard-card zoom-card">
+                <div class="dashboard-card zoom-card h-100 d-flex flex-column">
+                    <a href="{% url 'course_detail' course.id %}" class="text-decoration-none">
                         <div class="d-flex justify-content-between mb-3">
                             <span class="tag-eng">{{ course.get_level_display }}</span>
                             <i class="fas fa-link text-muted"></i>
                         </div>
                         <h5 class="fw-bold text-dark">{{ course.title }}</h5>
                         <p class="text-muted small mb-3">{{ course.description|truncatewords:15 }}</p>
-                        <div class="mt-auto">
+                    </a>
+                    <div class="mt-auto">
+                        <div class="mb-3">
                             {% for tag in course.tags.all %}
                                 <span class="badge bg-light text-secondary border">#{{ tag.name }}</span>
                             {% endfor %}
                         </div>
+                        <button class="btn btn-primary btn-sm rounded-pill w-100 shadow-sm py-2 fw-bold" 
+                                onclick="startLearningQuiz('{{ course.title|escapejs }}')">
+                            <i class="fas fa-brain me-1"></i> Tester mes acquis
+                        </button>
                     </div>
-                </a>
+                </div>
             </div>
             {% endfor %}
         </div>
@@ -282,16 +308,155 @@
     </div>
 
     <script>
+        const allQuizzes = {
+            "Maitriser Python de A à Z": [
+                { q: "Quelle fonction affiche du texte ?", options: ["print()", "log()", "display()"], correct: 0, exp: "En Python, on utilise print()." },
+                { q: "Lequel est une liste ?", options: ["(1,2)", "[1,2]", "{1,2}"], correct: 1, exp: "Les listes utilisent des crochets []." },
+                { q: "Comment commente-t-on ?", options: ["//", "/*", "#"], correct: 2, exp: "On utilise le dièse #." },
+                { q: "Mot-clé pour une boucle ?", options: ["for", "loop", "repeat"], correct: 0, exp: "La boucle 'for' est standard." },
+                { q: "Extension d'un fichier ?", options: [".py", ".pt", ".python"], correct: 0, exp: "L'extension est .py." },
+                { q: "Type pour un nombre entier ?", options: ["str", "float", "int"], correct: 2, exp: "int signifie integer." },
+                { q: "Définir une fonction ?", options: ["def", "func", "function"], correct: 0, exp: "On utilise 'def'." },
+                { q: "Lequel est un dictionnaire ?", options: ["{}", "[]", "()"], correct: 0, exp: "Les accolades sont pour les dict." },
+                { q: "Importer un module ?", options: ["load", "import", "using"], correct: 1, exp: "On utilise 'import'." },
+                { q: "Valeur de 5 // 2 ?", options: ["2.5", "2", "3"], correct: 1, exp: "// est la division entière." }
+            ],
+            "Créer des sites web avec Django": [
+                { q: "Qu'est-ce que Django ?", options: ["DB", "Framework Web", "Navigateur"], correct: 1, exp: "C'est un framework Python." },
+                { q: "Lancer le serveur ?", options: ["runserver", "start", "go"], correct: 0, exp: "C'est manage.py runserver." },
+                { q: "Fichier pour les routes ?", options: ["views.py", "urls.py", "models.py"], correct: 1, exp: "urls.py gère les chemins." },
+                { q: "Architecture de Django ?", options: ["MVC", "MVT", "SOA"], correct: 1, exp: "Model-View-Template." },
+                { q: "Créer une migration ?", options: ["makemigrations", "migrate", "save"], correct: 0, exp: "makemigrations prépare les changements." },
+                { q: "Langage des templates ?", options: ["Jinja2", "DTL", "PHP"], correct: 1, exp: "Django Template Language." },
+                { q: "Dossier fichiers statiques ?", options: ["assets", "static", "public"], correct: 1, exp: "C'est le dossier 'static'." },
+                { q: "Super-utilisateur ?", options: ["createsuperuser", "admin", "root"], correct: 0, exp: "Pour l'interface d'administration." },
+                { q: "Le modèle gère quoi ?", options: ["Design", "Base de données", "URL"], correct: 1, exp: "Le Model définit les données." },
+                { q: "Django est basé sur quel langage ?", options: ["Ruby", "Python", "Java"], correct: 1, exp: "Django est écrit en Python." }
+            ],
+            "Introduction au Machine Learning": [
+                { q: "Lequel est un algo de classification ?", options: ["K-Means", "Random Forest", "Linear Reg"], correct: 1, exp: "Random Forest est pour la classification." },
+                { q: "Bibliothèque phare ?", options: ["Django", "Scikit-Learn", "Numpy"], correct: 1, exp: "Scikit-learn est la référence en ML." },
+                { q: "Qu'est-ce que le 'Training' ?", options: ["Réparation", "Apprentissage", "Stockage"], correct: 1, exp: "Phase d'entraînement du modèle." },
+                { q: "Le clustering est du ML...", options: ["Supervisé", "Non-supervisé", "Reinforced"], correct: 1, exp: "Il ne nécessite pas de labels." },
+                { q: "Lequel gère les réseaux de neurones ?", options: ["Flask", "TensorFlow", "Pandas"], correct: 1, exp: "TensorFlow est pour le Deep Learning." },
+                { q: "Erreur moyenne quadratique ?", options: ["MSE", "MAE", "R2"], correct: 0, exp: "Mean Squared Error." },
+                { q: "Sur-apprentissage ?", options: ["Overfitting", "Underfitting", "Boosting"], correct: 0, exp: "Le modèle apprend trop les bruits." },
+                { q: "Un neurone artificiel est une...", options: ["Image", "Fonction maths", "Base"], correct: 1, exp: "C'est une unité de calcul." },
+                { q: "La régression prédit une valeur...", options: ["Binaire", "Continue", "Discrète"], correct: 1, exp: "La régression prédit un nombre." },
+                { q: "NLP signifie quoi ?", options: ["Natural Language Processing", "Node Link Protocol", "New Layer Path"], correct: 0, exp: "Traitement du langage." }
+            ],
+            "Maîtriser React.js en 2025": [
+                { q: "Qui a créé React ?", options: ["Google", "Meta", "Microsoft"], correct: 1, exp: "Créé par Facebook (Meta)." },
+                { q: "Extension de fichier ?", options: [".jsx", ".html", ".py"], correct: 0, exp: "JSX permet le HTML dans le JS." },
+                { q: "Un 'Hook' de base ?", options: ["useState", "useReact", "startState"], correct: 0, exp: "Pour gérer l'état." },
+                { q: "React est une... ?", options: ["Bibliothèque", "Base", "Framework CSS"], correct: 0, exp: "C'est une bibliothèque UI." },
+                { q: "Passer des données ?", options: ["Props", "Links", "Tags"], correct: 0, exp: "Les Props passent les infos." },
+                { q: "Virtual DOM ?", options: ["Copie du DOM réel", "Navigateur", "Serveur"], correct: 0, exp: "React utilise une copie." },
+                { q: "Cycle de vie ?", options: ["useEffect", "useLife", "useMount"], correct: 0, exp: "useEffect gère les effets." },
+                { q: "Créer un projet ?", options: ["npx create-react-app", "npm start", "react-new"], correct: 0, exp: "Commande standard." },
+                { q: "Lequel n'est pas React ?", options: ["Component", "State", "Pointer"], correct: 2, exp: "Pointer n'est pas un concept React." },
+                { q: "Sens des données ?", options: ["Unidirectionnel", "Bidirectionnel", "Aléatoire"], correct: 0, exp: "Les données descendent." }
+            ],
+            "Data Analysis avec Pandas & Matplotlib": [
+                { q: "Structure principale Pandas ?", options: ["Liste", "DataFrame", "Table"], correct: 1, exp: "Le DataFrame est la base." },
+                { q: "Matplotlib sert à... ?", options: ["Calculer", "Visualiser", "Stocker"], correct: 1, exp: "Sert aux graphiques." },
+                { q: "Charger un CSV ?", options: ["read_csv()", "load()", "get()"], correct: 0, exp: "pd.read_csv() est la commande." },
+                { q: "Supprimer les nulles ?", options: ["clear()", "dropna()", "delete()"], correct: 1, exp: "dropna() nettoie." },
+                { q: "Afficher le graphique ?", options: ["plt.show()", "plt.go()", "plt.run()"], correct: 0, exp: "plt.show() affiche le plot." },
+                { q: "L'axe des X ?", options: ["plt.xlabel", "plt.xaxis", "plt.xname"], correct: 0, exp: "Pour nommer l'axe." },
+                { q: "Pandas basé sur ?", options: ["Numpy", "Django", "Flask"], correct: 0, exp: "Utilise les arrays Numpy." },
+                { q: "Voir les 5 lignes ?", options: ["head()", "top()", "first()"], correct: 0, exp: "df.head() affiche le début." },
+                { q: "Sélectionner colonne ?", options: ["df['col']", "df.get('col')", "Les deux"], correct: 2, exp: "Les deux fonctionnent." },
+                { q: "Nuage de points ?", options: ["scatter()", "plot()", "hist()"], correct: 0, exp: "plt.scatter() crée un nuage." }
+            ],
+            "Git & GitHub : Le Guide Complet": [
+                { q: "Initialiser un dépôt ?", options: ["git init", "git start", "git new"], correct: 0, exp: "Crée le dossier .git." },
+                { q: "Voir l'état ?", options: ["git status", "git check", "git log"], correct: 0, exp: "status montre les modifs." },
+                { q: "Sauvegarde locale ?", options: ["git commit", "git push", "git add"], correct: 0, exp: "Commit crée l'instantané." },
+                { q: "Version parallèle ?", options: ["Branche", "Commit", "Tag"], correct: 0, exp: "Une branche isole le travail." },
+                { q: "Récupérer distant ?", options: ["git pull", "git send", "git fetch"], correct: 0, exp: "Pull ramène les nouveautés." },
+                { q: "Ajouter tout ?", options: ["git add .", "git add all", "git save"], correct: 0, exp: "Le point signifie 'tout'." },
+                { q: "Historique ?", options: ["git log", "git history", "git list"], correct: 0, exp: "Log affiche les commits." },
+                { q: "Vers GitHub ?", options: ["git push", "git upload", "git remote"], correct: 0, exp: "Push envoie en ligne." },
+                { q: "Fusionner ?", options: ["git merge", "git join", "git combine"], correct: 0, exp: "Merge réunit les branches." },
+                { q: "Copier dépôt ?", options: ["git clone", "git copy", "git download"], correct: 0, exp: "Clone télécharge le projet." }
+            ]
+        };
+
+        let currentQuestions = [];
+        let qIndex = 0;
+        let score = 0;
+
+        function startLearningQuiz(courseName) {
+            let bank = allQuizzes[courseName];
+            if (!bank) { alert("Quiz non disponible pour : " + courseName); return; }
+            currentQuestions = [...bank].sort(() => 0.5 - Math.random()).slice(0, 5);
+            qIndex = 0; score = 0;
+            document.getElementById('learning-quiz').style.display = 'block';
+            window.scrollTo({ top: document.getElementById('learning-quiz').offsetTop - 100, behavior: 'smooth' });
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const data = currentQuestions[qIndex];
+            document.getElementById('q-box').style.display = 'block';
+            document.getElementById('q-feedback').style.display = 'none';
+            document.getElementById('q-text').innerText = data.q;
+            document.getElementById('q-number').innerText = `Question ${qIndex + 1}/5`;
+            const optionsDiv = document.getElementById('q-options');
+            optionsDiv.innerHTML = "";
+            data.options.forEach((opt, i) => {
+                const btn = document.createElement('button');
+                btn.className = "btn btn-outline-dark text-start py-3 px-4 zoom-card border-2";
+                btn.innerText = opt;
+                btn.onclick = () => validateAnswer(i);
+                optionsDiv.appendChild(btn);
+            });
+        }
+
+        function validateAnswer(idx) {
+            const data = currentQuestions[qIndex];
+            document.getElementById('q-box').style.display = 'none';
+            const feedback = document.getElementById('q-feedback');
+            feedback.style.display = 'block';
+            if (idx === data.correct) {
+                score++;
+                document.getElementById('feedback-title').innerHTML = "<span class='text-success fw-bold'>Correct !</span>";
+                document.getElementById('feedback-icon').innerHTML = '<i class="fas fa-check-circle fa-4x text-success"></i>';
+            } else {
+                document.getElementById('feedback-title').innerHTML = "<span class='text-danger fw-bold'>Incorrect</span>";
+                document.getElementById('feedback-icon').innerHTML = '<i class="fas fa-times-circle fa-4x text-danger"></i>';
+            }
+            document.getElementById('feedback-desc').innerText = data.exp;
+        }
+
+        function nextQuestion() {
+            qIndex++;
+            if (qIndex < 5) { showQuestion(); } 
+            else { finishQuiz(); }
+        }
+
+        function finishQuiz() {
+            document.getElementById('q-feedback').style.display = 'none';
+            const qBox = document.getElementById('q-box');
+            qBox.style.display = 'block';
+            qBox.innerHTML = `
+                <div class="text-center py-4">
+                    <i class="fas fa-trophy fa-4x text-warning mb-3"></i>
+                    <h2 class="fw-bold">Bravo Nada !</h2>
+                    <p class="fs-4">Score final : <span class="text-primary">${score}/5</span></p>
+                    <button class="btn btn-primary rounded-pill px-5 mt-3 fw-bold" onclick="location.reload()">Terminer</button>
+                </div>
+            `;
+        }
+
         window.addEventListener('load', function() {
             const loader = document.getElementById('loader');
             setTimeout(() => {
                 loader.style.opacity = '0';
-                setTimeout(() => {
-                    loader.style.display = 'none';
-                }, 500);
+                setTimeout(() => { loader.style.display = 'none'; }, 500);
             }, 500);
         });
     </script>
-
 </body>
 </html>

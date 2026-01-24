@@ -267,7 +267,7 @@
                             {% endfor %}
                         </div>
                         <button class="btn btn-primary btn-sm rounded-pill w-100 shadow-sm py-2 fw-bold" 
-                                onclick="startLearningQuiz('{{ course.title|escapejs }}')">
+                                onclick="startLearningQuiz('{{ course.title|escapejs }}', '{% if user_profile %}{{ user_profile.name|escapejs }}{% else %}{{ user.username|escapejs }}{% endif %}')">
                             <i class="fas fa-brain me-1"></i> Tester mes acquis
                         </button>
                     </div>
@@ -386,10 +386,12 @@
         let currentQuestions = [];
         let qIndex = 0;
         let score = 0;
+        let currentUserName = "";
 
-        function startLearningQuiz(courseName) {
+        function startLearningQuiz(courseName, userName) {
             let bank = allQuizzes[courseName];
             if (!bank) { alert("Quiz non disponible pour : " + courseName); return; }
+            currentUserName = userName;
             currentQuestions = [...bank].sort(() => 0.5 - Math.random()).slice(0, 5);
             qIndex = 0; score = 0;
             document.getElementById('learning-quiz').style.display = 'block';
@@ -443,7 +445,7 @@
             qBox.innerHTML = `
                 <div class="text-center py-4">
                     <i class="fas fa-trophy fa-4x text-warning mb-3"></i>
-                    <h2 class="fw-bold">Bravo Nada !</h2>
+                    <h2 class="fw-bold">Bravo ${currentUserName} !</h2>
                     <p class="fs-4">Score final : <span class="text-primary">${score}/5</span></p>
                     <button class="btn btn-primary rounded-pill px-5 mt-3 fw-bold" onclick="location.reload()">Terminer</button>
                 </div>

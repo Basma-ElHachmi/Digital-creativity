@@ -35,7 +35,6 @@
             margin: auto;
         }
 
-        /* HEADER BLEU ROYAL AVEC CHAPEAU */
         .project-header {
             background: linear-gradient(135deg, var(--eng-blue) 0%, var(--eng-blue-dark) 100%);
             color: white;
@@ -76,7 +75,6 @@
             color: rgba(255,255,255,0.9);
         }
 
-        /* CONTENU DU PROJET */
         .project-body {
             padding: 40px;
         }
@@ -115,35 +113,13 @@
             border: 1px solid #e2e8f0;
         }
 
-        /* ACTIONS */
         .project-footer {
             padding: 30px 40px;
             background: #fcfcfc;
             border-top: 1px solid #eee;
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start; /* Aligné à gauche maintenant */
             align-items: center;
-        }
-
-        .btn-action-eng {
-            background: var(--eng-blue);
-            color: white;
-            padding: 14px 30px;
-            border-radius: 12px;
-            font-weight: 700;
-            text-decoration: none;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border: none;
-        }
-
-        .btn-action-eng:hover {
-            background: var(--electric-blue);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
-            color: white;
         }
 
         .back-link {
@@ -193,10 +169,7 @@
             <a href="{% url 'home' %}" class="back-link">
                 <i class="fas fa-arrow-left me-2"></i> Retour au Dashboard
             </a>
-            <button class="btn-action-eng">
-                <i class="fas fa-rocket"></i> Lancer le Projet
-            </button>
-        </div>
+            </div>
     </div>
 
 </body>

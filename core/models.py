@@ -71,3 +71,5 @@ class AINavigator(models.Model):
     tags = models.ManyToManyField(Tag, blank=True)
     def __str__(self):
         return self.name
+    from django.contrib.auth.models import User
+

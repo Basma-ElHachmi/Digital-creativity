@@ -36,7 +36,6 @@
             max-width: 750px;
         }
 
-        /* HEADER BLEU ROYAL (IDEM DASHBOARD) */
         .card-header-custom {
             background: linear-gradient(135deg, var(--eng-blue) 0%, var(--eng-blue-dark) 100%);
             color: white;
@@ -45,7 +44,6 @@
             position: relative;
         }
 
-        /* Effet de grille technique */
         .card-header-custom::before {
             content: "";
             position: absolute;
@@ -59,9 +57,15 @@
             font-size: 40px;
             margin-bottom: 15px;
             color: rgba(255,255,255,0.9);
+            position: relative;
+            z-index: 1;
         }
 
-        /* FORMULAIRE */
+        .card-header-custom h2, .card-header-custom p {
+            position: relative;
+            z-index: 1;
+        }
+
         .form-label {
             font-weight: 700;
             font-size: 13px;
@@ -82,9 +86,9 @@
             border-color: var(--electric-blue);
             box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
             background-color: #fff;
+            outline: none;
         }
 
-        /* TAGS / INTERETS */
         .tag-select-input { display: none; }
 
         .tag-select-label {
@@ -122,7 +126,6 @@
             opacity: 1;
         }
 
-        /* BOUTON ENREGISTRER (STYLE PREMIUM DASHBOARD) */
         .btn-save {
             background-color: var(--eng-blue);
             color: white;
@@ -182,15 +185,17 @@
                 <div class="row">
                     <div class="col-md-6 mb-4">
                         <label class="form-label">Nom complet</label>
-                        <input type="text" class="form-control" name="name" placeholder="Ex: Ahmed Benani" required>
+                        <input type="text" class="form-control" name="name" 
+                               placeholder="Ex: Ahmed Benani" required 
+                               value="{{ user_profile.name|default:'' }}">
                     </div>
 
                     <div class="col-md-6 mb-4">
                         <label class="form-label">Niveau d'études</label>
                         <select class="form-select" name="level">
-                            <option value="beginner">Année Préparatoire (CP)</option>
-                            <option value="intermediate">Cycle Ingénieur (CI1/CI2)</option>
-                            <option value="advanced">Fin de cycle (CI3)</option>
+                            <option value="Année Préparatoire (CP)" {% if user_profile.level == "Année Préparatoire (CP)" %}selected{% endif %}>Année Préparatoire (CP)</option>
+                            <option value="Cycle Ingénieur (CI1/CI2)" {% if user_profile.level == "Cycle Ingénieur (CI1/CI2)" %}selected{% endif %}>Cycle Ingénieur (CI1/CI2)</option>
+                            <option value="Fin de cycle (CI3)" {% if user_profile.level == "Fin de cycle (CI3)" %}selected{% endif %}>Fin de cycle (CI3)</option>
                         </select>
                     </div>
                 </div>
@@ -200,7 +205,10 @@
                     <div class="row g-3">
                         {% for tag in tags %}
                             <div class="col-md-6">
-                                <input type="checkbox" class="tag-select-input" name="interests" value="{{ tag.id }}" id="tag_{{ tag.id }}">
+                                <input type="checkbox" class="tag-select-input" name="interests" 
+                                       value="{{ tag.id }}" id="tag_{{ tag.id }}"
+                                       {% if tag in user_profile.interests.all %}checked{% endif %}>
+                                
                                 <label class="tag-select-label" for="tag_{{ tag.id }}">
                                     <span><i class="fas fa-hashtag me-2 opacity-50"></i>{{ tag.name }}</span>
                                     <i class="fas fa-check-circle check-icon"></i>

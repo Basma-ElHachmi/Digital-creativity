@@ -66,8 +66,8 @@ Une fois le serveur lancé, ouvrez votre navigateur à l'adresse : http://127.0.
 ![Page de profil](screenshots/profil.png)
 ![Page d'accueil](screenshots/homepage.png)
 ![Page des cours](screenshots/courses.png)
-
-
+![Tester mes acquis](screenshots/test.png)
+![Tester mes acquis](screenshots/test2.png)
 
 
 

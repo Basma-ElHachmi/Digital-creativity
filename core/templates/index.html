@@ -299,9 +299,13 @@
                         <div class="mb-3 text-danger"><i class="fas fa-bolt fa-2x"></i></div>
                         <h5 class="fw-bold text-dark">{{ tool.name }}</h5>
                         <p class="small text-muted">{{ tool.description }}</p>
-                        <span class="btn btn-sm btn-outline-danger rounded-pill px-4 mt-2">Ouvrir</span>
+                        <span class="btn btn-sm btn-outline-danger rounded-pill px-4 mt-2">Explorer l'outil</span>
                     </div>
                 </a>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-4">
+                <p class="text-muted">Aucun outil IA n'a encore été ajouté.</p>
             </div>
             {% endfor %}
         </div>

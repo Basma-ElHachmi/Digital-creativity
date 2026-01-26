@@ -193,9 +193,16 @@
             <a href="{% url 'home' %}" class="back-link">
                 <i class="fas fa-arrow-left me-2"></i> Retour au Dashboard
             </a>
-            <button class="btn-action-eng">
+            
+            {% if project.project_url %}
+            <a href="{{ project.project_url }}" target="_blank" class="btn-action-eng">
                 <i class="fas fa-rocket"></i> Lancer le Projet
+            </a>
+            {% else %}
+            <button class="btn-action-eng" disabled style="opacity: 0.6; cursor: not-allowed;">
+                <i class="fas fa-rocket"></i> Bientôt Disponible
             </button>
+            {% endif %}
         </div>
     </div>
 

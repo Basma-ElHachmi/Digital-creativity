@@ -57,9 +57,12 @@ class Project(models.Model):
         ('advanced', 'Avancé'),
     ]
     title = models.CharField(max_length=150)
-    description = models.TextField() # Tu mettras les exemples ici
+    description = models.TextField() 
     level = models.CharField(max_length=20, choices=LEVEL_CHOICES)
     tags = models.ManyToManyField(Tag, blank=True)
+    # AJOUT : Le lien pour faire fonctionner le bouton "Lancer le projet"
+    project_url = models.URLField(max_length=500, blank=True, null=True) 
+
     def __str__(self):
         return self.title
 
